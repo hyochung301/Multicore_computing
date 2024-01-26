@@ -19,6 +19,11 @@ public class Frequency implements Callable<Integer> {
             return -1;
         } // meet the condition of "return -1 if the input is not valid"
 
+        // If the array size is smaller than the number of threads, assign one task to one thread
+        if (A.length < numThreads) {
+            numThreads = A.length;
+        }
+
         ExecutorService threadPool = Executors.newFixedThreadPool(numThreads); // specify number of threads into a thread pool
         Set<Future<Integer>> futures = new HashSet<>(); // set of futures to keep track of threads results
         int subarraySize = A.length / numThreads; // size of each subarray each thread will process
