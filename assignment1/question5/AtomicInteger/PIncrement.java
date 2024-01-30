@@ -11,10 +11,11 @@ public class PIncrement implements Runnable {
     private static int numIncrements = 1200000;
     private static AtomicInteger atomicvalue;
 
-    public static int parallelIncrement(int c, int numThreads) {
-        if (numThreads <= 0) {
+    public static int parallelIncrement(int c, int nt) {
+        if (nt <= 0) {
             return numIncrements; // no thread to perform parllel increment
         }
+        numThreads = nt;
         atomicvalue = new AtomicInteger(c);
 
         PIncrement runnable = new PIncrement();
@@ -54,6 +55,6 @@ public class PIncrement implements Runnable {
             }
             counter++;
         }
-        System.out.println("Thread " + Thread.currentThread().getId() + " finished." + " Counter: " + counter);
+        // System.out.println("Thread " + Thread.currentThread().getId() + " finished." + " Counter: " + counter);
     }
 }
