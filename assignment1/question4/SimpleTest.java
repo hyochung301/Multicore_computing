@@ -23,4 +23,32 @@ public class SimpleTest {
         frequency = Frequency.parallelFreq(32, A, 8);
         assertTrue("Result is " + frequency + ", expected frequency of 32 is 3.", frequency == 3);
     }
+
+    @Test
+    public void testNumberNotPresent() {
+        int[] array = {1, 2, 3, 4, 5};
+        int frequency = Frequency.parallelFreq(6, array, 4);
+        assertEquals("Number not present should return frequency 0", 0, frequency);
+    }
+
+    @Test
+    public void testEmptyArray() {
+        int[] array = {};
+        int frequency = Frequency.parallelFreq(3, array, 4);
+        assertEquals("Empty array should return frequency -1 for bad input", -1, frequency);
+    }
+
+    @Test
+    public void testSingleElementArray() {
+        int[] array = {3};
+        int frequency = Frequency.parallelFreq(3, array, 4);
+        assertEquals("Single element array should return correct frequency", 1, frequency);
+    }
+
+    @Test
+    public void testAllIdenticalElements() {
+        int[] array = {5, 5, 5, 5, 5, 5};
+        int frequency = Frequency.parallelFreq(5, array, 4);
+        assertEquals("Array with all identical elements should return correct frequency", 6, frequency);
+    }
 }

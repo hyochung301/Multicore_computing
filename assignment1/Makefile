@@ -19,6 +19,10 @@ test: $(OBJ)
 	clear
 	$(RUN) $(CLASSPATH) $(JUNIT_MAIN) question5.SimpleTest
 
+test4: $(OBJ)
+	clear
+	$(RUN) $(CLASSPATH) $(JUNIT_MAIN) question4.SimpleTest
+
 clean: 
 	rm $(OBJ)
 	rm *.class

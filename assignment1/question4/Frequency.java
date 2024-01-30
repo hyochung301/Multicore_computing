@@ -15,7 +15,7 @@ public class Frequency implements Callable<Integer> {
     }
 
     public static int parallelFreq(int x, int[] A, int numThreads) {
-        if (A == null || numThreads <= 0) {
+        if (A == null || numThreads <= 0 || A.length == 0) {
             return -1;
         } // meet the condition of "return -1 if the input is not valid"
 
