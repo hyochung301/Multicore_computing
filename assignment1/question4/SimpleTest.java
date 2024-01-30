@@ -51,4 +51,11 @@ public class SimpleTest {
         int frequency = Frequency.parallelFreq(5, array, 4);
         assertEquals("Array with all identical elements should return correct frequency", 9, frequency);
     }
+
+    @Test
+    public void testArrayNotMultipleOfThreads2() {
+        int[] array = {5, 5, 5, 5, 5, 5, 5, 5, 5}; // 9 elements
+        int frequency = Frequency.parallelFreq(5, array, 4);
+        assertEquals("Array with all identical elements should return correct frequency", 9, frequency);
+    }
 }

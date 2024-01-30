@@ -24,17 +24,34 @@ public class Frequency implements Callable<Integer> {
             numThreads = A.length;
         }
 
+        // because num elements may not be evenly divisible by nthreads, subarrays may vary in size
+        // so I'll keep an array of subsizes instead and spread the remainder across this array
+        int[] subsizes = new int[numThreads];
+
+        for (int i = 0; i < subsizes.length; i++) {
+            subsizes[i] = A.length / numThreads;
+        }
+
+        if ((A.length % numThreads) != 0) {
+            for (int i = 0; i < (A.length%numThreads); i++) {
+                subsizes[i]++;
+            }
+        }
+
         ExecutorService threadPool = Executors.newFixedThreadPool(numThreads); // specify number of threads into a thread pool
         Set<Future<Integer>> futures = new HashSet<>(); // set of futures to keep track of threads results
-        int subarraySize = A.length / numThreads; // size of each subarray each thread will process
+
+        // then we'll have to advance this index pointer to track the start index rather than the simple i * subarraysize
+        int begini = 0;
 
         // submit tasks to threadPool
         for (int i = 0; i < numThreads; i++) {
-            int start = i * subarraySize;
-            int end = Math.min(start + subarraySize, A.length);
+            int start = begini;
+            int end = Math.min(start + subsizes[i], A.length);
             int[] subArray = Arrays.copyOfRange(A, start, end); //create a subarray by passing in the og array, start and end inex
             Future<Integer> future = threadPool.submit(new Frequency(x, subArray)); // submit a task to threadPool
             futures.add(future);
+            begini = end;
         }
 
         // get results from futures
