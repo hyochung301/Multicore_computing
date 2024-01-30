@@ -58,7 +58,7 @@ public class Frequency implements Callable<Integer> {
                 count++;
             }
         }
-        System.out.println("Count in call(): " + count); // print count from call()
+        // System.out.println("Count in call(): " + count); // print count from call()
 
         return count;
     }

@@ -46,9 +46,9 @@ public class SimpleTest {
     }
 
     @Test
-    public void testAllIdenticalElements() {
-        int[] array = {5, 5, 5, 5, 5, 5};
+    public void testArrayNotMultipleOfThreads() {
+        int[] array = {5, 5, 5, 5, 5, 5, 5, 5, 5}; // 9 elements
         int frequency = Frequency.parallelFreq(5, array, 4);
-        assertEquals("Array with all identical elements should return correct frequency", 6, frequency);
+        assertEquals("Array with all identical elements should return correct frequency", 9, frequency);
     }
 }
