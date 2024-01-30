@@ -1,57 +1,57 @@
 package question5.ReentrantLock;
 
-import java.util.concurrent.locks.*;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class PIncrement implements Runnable {
-
-    private final ReentrantLock relock = new ReentrantLock();
-    private int counter, N;
-
-    public PIncrement(int c, int NT) {
-        counter = c; N = NT;
-    }
-
-    public int getCounter() {return counter;}
+    private static int numThreads;
+    private static int numIncrements = 1200000;
+    private static ReentrantLock lock;
+    private static int c_variable;
 
     public static int parallelIncrement(int c, int numThreads) {
-
-        if (numThreads < 1) return 0; // why?
-
-        PIncrement runner = new PIncrement(c, numThreads);
-
-        ArrayList<Thread> threads = new ArrayList<Thread>();
-        for (int i = 0; i < numThreads; i++) {
-            threads.add(new Thread(runner));
+        if (numThreads <= 0) {
+            return numIncrements; // no thread to perform parallel increment
         }
+        c_variable = c;
 
-        long start = System.nanoTime();
+        PIncrement runnable = new PIncrement();
 
-        for (Thread t : threads) {
+        Set<Thread> threads = new HashSet<Thread>();
+
+        // create threads and start
+        for (int i = 0; i < numThreads; i++) {
+            Thread t = new Thread(runnable);
+            threads.add(t);
             t.start();
         }
 
+        // wait for all threads to finish
         for (Thread t : threads) {
             try {
                 t.join();
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        long end = System.nanoTime();
-
-        System.out.println("Elapsed time: " + (end - start) / 1_000_000 + " ms");
-
-        return runner.getCounter();
-        
+        return c_variable;
     }
 
+
     public void run() {
-        for (int i = 0; i < (1200000/N); i++) {
-            relock.lock();
-            counter++;
-            relock.unlock();
+        int counter = 0;
+        int thread_task = numIncrements / numThreads;
+        for (int i = 0; i < thread_task; i++) {
+            lock.lock();
+            try {
+                c_variable++;
+                counter++;
+            } finally {
+                lock.unlock();
+            }
         }
+        System.out.println("Thread " + Thread.currentThread().getId() + " finished." + " Counter: " + counter);
     }
 }
