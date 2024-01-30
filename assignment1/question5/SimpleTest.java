@@ -14,12 +14,12 @@ public class SimpleTest {
         System.out.println("Bakery:\n");
         int res = question5.Bakery.PIncrement.parallelIncrement(0, 8);
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-        // res = question5.Bakery.PIncrement.parallelIncrement(0, 4);
-        // assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-        // res = question5.Bakery.PIncrement.parallelIncrement(0, 2);
-        // assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-        // res = question5.Bakery.PIncrement.parallelIncrement(0, 1);
-        // assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Bakery.PIncrement.parallelIncrement(0, 4);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Bakery.PIncrement.parallelIncrement(0, 2);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Bakery.PIncrement.parallelIncrement(0, 1);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
         System.out.println("\n");
     }
 
