@@ -1,0 +1,26 @@
+.Reent:
+Elapsed time: 51 ms
+Elapsed time: 20 ms
+Elapsed time: 24 ms
+Elapsed time: 15 ms
+
+
+.Atomic:
+Elapsed time: 218 ms
+Elapsed time: 73 ms
+Elapsed time: 31 ms
+Elapsed time: 8 ms
+
+
+.Synch:
+Elapsed time: 72 ms
+Elapsed time: 41 ms
+Elapsed time: 13 ms
+Elapsed time: 15 ms
+
+
+.Bakery:
+Elapsed time: 590 ms
+Elapsed time: 186 ms
+Elapsed time: 143 ms
+Elapsed time: 48 ms
