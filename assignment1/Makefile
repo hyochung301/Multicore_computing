@@ -16,11 +16,8 @@ $(OBJ): %.class: %.java
 build: $(OBJ)
 
 test: $(OBJ)
-	$(RUN) $(CLASSPATH) $(JUNIT_MAIN) question5.SimpleTest
-
-testfive: $(OBJ)
 	clear
-	$(RUN) question5.SimpleTest
+	$(RUN) $(CLASSPATH) $(JUNIT_MAIN) question5.SimpleTest
 
 clean: 
 	rm $(OBJ)
