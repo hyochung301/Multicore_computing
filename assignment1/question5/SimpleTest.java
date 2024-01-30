@@ -11,6 +11,7 @@ public class SimpleTest {
     
     // @Test
     // public void TestTournament() {
+    //     System.out.println("Bakery:\n");
     //     int res = question5.Bakery.PIncrement.parallelIncrement(0, 8);
     //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
     //     res = question5.Bakery.PIncrement.parallelIncrement(0, 4);
@@ -19,10 +20,12 @@ public class SimpleTest {
     //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
     //     res = question5.Bakery.PIncrement.parallelIncrement(0, 1);
     //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+    //     System.out.println("\n");
     // }
 
     @Test
     public void TestAtomicInteger() {
+        System.out.println("Atomic:");
         int res = question5.AtomicInteger.PIncrement.parallelIncrement(0, 8);
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
         res = question5.AtomicInteger.PIncrement.parallelIncrement(0, 4);
@@ -31,22 +34,26 @@ public class SimpleTest {
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
         res = question5.AtomicInteger.PIncrement.parallelIncrement(0, 1);
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        System.out.println("\n");
     }
 
-    // @Test
-    // public void TestSynchronized() {
-    //     int res = question5.Synchronized.PIncrement.parallelIncrement(0, 8);
-    //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-    //     res = question5.Synchronized.PIncrement.parallelIncrement(0, 4);
-    //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-    //     res = question5.Synchronized.PIncrement.parallelIncrement(0, 2);
-    //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-    //     res = question5.Synchronized.PIncrement.parallelIncrement(0, 1);
-    //     assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
-    // }
+    @Test
+    public void TestSynchronized() {
+        System.out.println("Synch:");
+        int res = question5.Synchronized.PIncrement.parallelIncrement(0, 8);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Synchronized.PIncrement.parallelIncrement(0, 4);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Synchronized.PIncrement.parallelIncrement(0, 2);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        res = question5.Synchronized.PIncrement.parallelIncrement(0, 1);
+        assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        System.out.println("\n");
+    }
 
     @Test
     public void TestReentrantLock() {
+        System.out.println("Reent:");
         int res = question5.ReentrantLock.PIncrement.parallelIncrement(0, 8);
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
         res = question5.ReentrantLock.PIncrement.parallelIncrement(0, 4);
@@ -55,6 +62,7 @@ public class SimpleTest {
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
         res = question5.ReentrantLock.PIncrement.parallelIncrement(0, 1);
         assertTrue("Result is " + res + ", expected result is 1200000.", res == 1200000);
+        System.out.println("\n");
     }
 
 
