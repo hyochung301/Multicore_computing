@@ -35,21 +35,24 @@ int Sieve(int N, int threads)
     return found;
 
 }
-
-int main()
-{
+int main (int argc, char *argv[]) {
     int num_primes;
     int N = 1000000;
     int num_threads = 8;
 
+    if (argc>1) {
+        N = atoi(argv[1]);
+        num_threads = atoi(argv[2]);
+    }
+
     auto start = std::chrono::high_resolution_clock::now();
     num_primes = Sieve(N, num_threads);
-    //1000000 given
     auto end = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration<double> elapsed = end - start;
-    printf("Number of primes: %d\n", num_primes);
-    printf("Time taken: %.3f seconds with %i threads \n", elapsed.count(), num_threads);
+    // changed formatting slightly so script can read it easily
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    printf("Number of primes: \n%d\n", num_primes);
+    printf("Time taken: \n%.3f us\nwith %i threads \n", elapsed.count()/1000.f, num_threads);
 
     return 0;
 }
