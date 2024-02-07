@@ -1,3 +1,7 @@
+# cpp
+*.o
+*run
+
 # Java
 *.class
 *.war

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
 #include <omp.h>
 
 void printMatrix(std::vector<std::vector<int>> matrix) {
@@ -40,6 +41,8 @@ void MatrixMult(char file1[], char file2[], int T)
 
     omp_set_num_threads(T); // T threads
 
+    auto start = std::chrono::high_resolution_clock::now();
+
 #pragma omp parallel for
     for (int i = 0; i < matrix1.size(); i++) {
         for (int j = 0; j < matrix2[0].size(); j++) {
@@ -51,7 +54,13 @@ void MatrixMult(char file1[], char file2[], int T)
             result[i][j] = sum;
         }
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+
     printMatrix(result);
+
+    std::cout << elapsed.count() << "\n"; // REMOVE THIS BEFORE TURN IN!!!!
 }
 
 int main(int argc, char *argv[])
