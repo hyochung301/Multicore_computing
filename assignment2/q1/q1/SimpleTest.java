@@ -169,7 +169,9 @@ public class SimpleTest {
                     threads[i] = new Thread(new ThreadMonkey(monkey, (int) Math.round(Math.random())));
                 threads[i].start();
                 Assert.assertFalse(!monkey.kong() && (monkey.left() && monkey.right()));
-                Assert.assertFalse(monkey.kong() && (monkey.getNumMonkeysOnRope()!=1));
+                int non = monkey.getNumMonkeysOnRope();
+                boolean kongbad = (monkey.kong() && (non!=1));
+                if (kongbad) {System.out.println(String.format("kong on and %d on", non));Assert.fail();}
                 Assert.assertTrue(monkey.getNumMonkeysOnRope() <= 3);
                 Assert.assertTrue(monkey.getNumMonkeysOnRope() >= 0);
             }
@@ -189,7 +191,9 @@ public class SimpleTest {
             }
             try {
                 Assert.assertFalse(!monkey.kong() && (monkey.left() && monkey.right()));
-                Assert.assertFalse(monkey.kong() && (monkey.getNumMonkeysOnRope()!=1));
+                int non = monkey.getNumMonkeysOnRope();
+                boolean kongbad = (monkey.kong() && (non!=1));
+                if (kongbad) {System.out.println(String.format("kong on and %d on", non));Assert.fail();}
                 Assert.assertTrue(monkey.getNumMonkeysOnRope() <= 3);
                 Assert.assertTrue(monkey.getNumMonkeysOnRope() >= 0);
                 Thread.sleep(1);

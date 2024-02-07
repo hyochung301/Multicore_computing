@@ -32,8 +32,8 @@ public class Monkey {
 
    private void ClimbRopeLeft() throws InterruptedException {
       rope.lock();
-      while (kong_on || right_on || nmonkeys >= 3) {
-         while (kong_on)      no_kong.await();
+      while (kong_wants || kong_on || right_on || nmonkeys >= 3) {
+         while (kong_on || kong_wants)      no_kong.await();
          while (right_on)      no_right.await();
          while(nmonkeys >= 3) not_full.await();
       }
@@ -45,8 +45,8 @@ public class Monkey {
    }
    private void ClimbRopeRight() throws InterruptedException {
       rope.lock();
-      while (kong_on || left_on || nmonkeys >= 3) {
-         while (kong_on)      no_kong.await();
+      while (kong_wants || kong_on || left_on || nmonkeys >= 3) {
+         while (kong_on || kong_wants)      no_kong.await();
          while (left_on)      no_left.await();
          while(nmonkeys >= 3) not_full.await();
       }
@@ -57,10 +57,13 @@ public class Monkey {
       rope.unlock();
    }
    private void ClimbRopeKong() throws InterruptedException {
+      // System.out.println("\t\tKONG WANT");
       kong_wants = true;
       rope.lock();
+      int pnmonkeys = nmonkeys;
       while (nmonkeys!=0) rope_empty.await();
       if (nmonkeys!=0) System.out.println("ERROR: kong not alone");
+      kong_wants = false;
       nmonkeys++;
       // System.out.println(String.format("KONG CROSSIN, #%d", nmonkeys));
       kong_on = true;
@@ -93,11 +96,11 @@ public class Monkey {
       nmonkeys--;
       not_full.signalAll();
       if (nmonkeys==0) {
-         rope_empty.signal(); 
+         rope_empty.signalAll(); 
          left_on = false; right_on = false; kong_on = false;
          no_left.signalAll(); no_right.signalAll(); no_kong.signalAll();
       }
-      nmonfin++;
+      // nmonfin++;
       rope.unlock();
       // if (nmonfin%10==0) System.out.println(nmonfin);
    }
