@@ -8,7 +8,7 @@ HAMCREST_JAR= hamcrest-core-1.3.jar
 CLASSPATH= -cp .:$(JUNIT_JAR):$(HAMCREST_JAR)
 JUNIT_MAIN = org.junit.runner.JUnitCore
 
-.PHONY: test build run clean
+.PHONY: test build run clean cb
 
 $(OBJ): %.class: %.java
 	javac $(CLASSPATH) $(CFLAGS) $<

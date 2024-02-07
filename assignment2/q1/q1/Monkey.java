@@ -38,9 +38,8 @@ public class Monkey {
       }
       left_on = true;
       nmonkeys++;
-      if (nmonkeys>=3) System.out.println("ERROR nmonks > 3");
+      if (nmonkeys>3) System.out.println("ERROR nmonks > 3");
       rope.unlock();
-
    }
    private void ClimbRopeRight() throws InterruptedException {
       rope.lock();
@@ -51,7 +50,7 @@ public class Monkey {
       }
       right_on = true;
       nmonkeys++;
-      if (nmonkeys>=3) System.out.println("ERROR nmonks > 3");
+      if (nmonkeys>3) System.out.println("ERROR nmonks > 3");
       rope.unlock();
    }
    private void ClimbRopeKong() throws InterruptedException {
@@ -85,6 +84,7 @@ public class Monkey {
    // After crossing the river, every monkey calls this method which
    // allows other monkeys to climb the rope.
    public void LeaveRope() {
+      rope.lock();
       if (nmonkeys==0) System.out.println("ERROR: leave called w 0 monkeys!");
       nmonkeys--;
       not_full.signal();
@@ -93,6 +93,7 @@ public class Monkey {
          left_on = false; right_on = false; kong_on = false;
          no_left.signal(); no_right.signal(); no_kong.signal();
       }
+      rope.unlock();
    }
 
    /**
