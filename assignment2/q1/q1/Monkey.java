@@ -9,10 +9,11 @@ import java.util.concurrent.locks.Condition;
 public class Monkey {
 
    int nmonkeys = 0;
+   int nmonfin = 0;
    boolean kong_wants = false;
-   boolean kong_on = false; public boolean kong() {return kong_on;}
-   boolean left_on = false; public boolean left() {return left_on;}
-   boolean right_on = false;public boolean right(){return right_on;}
+   boolean kong_on = false;   public boolean kong() {return kong_on;}
+   boolean left_on = false;   public boolean left() {return left_on;}
+   boolean right_on = false;  public boolean right(){return right_on;}
    ReentrantLock rope;
    Condition no_right;
    Condition no_left;
@@ -21,7 +22,7 @@ public class Monkey {
    Condition rope_empty;
 
    public Monkey() {
-      rope  = new ReentrantLock();
+      rope  = new ReentrantLock(true);
       no_right    = rope.newCondition();
       no_left     = rope.newCondition();
       no_kong     = rope.newCondition();
@@ -38,6 +39,7 @@ public class Monkey {
       }
       left_on = true;
       nmonkeys++;
+      // System.out.println(String.format("LEFT CROSSIN, #%d", nmonkeys));
       if (nmonkeys>3) System.out.println("ERROR nmonks > 3");
       rope.unlock();
    }
@@ -50,6 +52,7 @@ public class Monkey {
       }
       right_on = true;
       nmonkeys++;
+      // System.out.println(String.format("RGHT CROSSIN, #%d", nmonkeys));
       if (nmonkeys>3) System.out.println("ERROR nmonks > 3");
       rope.unlock();
    }
@@ -59,6 +62,7 @@ public class Monkey {
       while (nmonkeys!=0) rope_empty.await();
       if (nmonkeys!=0) System.out.println("ERROR: kong not alone");
       nmonkeys++;
+      // System.out.println(String.format("KONG CROSSIN, #%d", nmonkeys));
       kong_on = true;
       rope.unlock();
    }
@@ -87,13 +91,15 @@ public class Monkey {
       rope.lock();
       if (nmonkeys==0) System.out.println("ERROR: leave called w 0 monkeys!");
       nmonkeys--;
-      not_full.signal();
+      not_full.signalAll();
       if (nmonkeys==0) {
          rope_empty.signal(); 
          left_on = false; right_on = false; kong_on = false;
-         no_left.signal(); no_right.signal(); no_kong.signal();
+         no_left.signalAll(); no_right.signalAll(); no_kong.signalAll();
       }
+      nmonfin++;
       rope.unlock();
+      // if (nmonfin%10==0) System.out.println(nmonfin);
    }
 
    /**
