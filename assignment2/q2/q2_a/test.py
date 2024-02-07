@@ -43,13 +43,13 @@ def test_program(num_tests=100, max_size=300):
         
         generate_matrix_file(A, matrix_a_filename)
         generate_matrix_file(B, matrix_b_filename)
-        
-        output = run_program(matrix_a_filename, matrix_b_filename, 1)
-        
-        C_result = read_matrix_from_output(output)
-        
-        C_correct = np.dot(A, B)
-        assert np.array_equal(C_result, C_correct), f"Test failed on matrices of sizes ({rows_a},{cols_a}) and ({rows_b},{cols_b})"
+        for th in range(1,17):
+            output = run_program(matrix_a_filename, matrix_b_filename, th)
+            
+            C_result = read_matrix_from_output(output)
+            
+            C_correct = np.dot(A, B)
+            assert np.array_equal(C_result, C_correct), f"Test failed on matrices of sizes ({rows_a},{cols_a}) and ({rows_b},{cols_b})"
         
         print(f"Test {test + 1} passed for matrix sizes ({rows_a},{cols_a}) x ({rows_b},{cols_b})")
 
