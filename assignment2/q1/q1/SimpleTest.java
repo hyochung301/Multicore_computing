@@ -11,7 +11,6 @@ public class SimpleTest {
     class ThreadMonkey implements Runnable {
 
         private Monkey monkey;
-
         private int direction;
 
         ThreadMonkey(Monkey monkey, int direction) {
