@@ -60,7 +60,9 @@ void MatrixMult(char file1[], char file2[], int T)
 
     printMatrix(result);
 
-    std::cout << elapsed.count() << "\n"; // REMOVE THIS BEFORE TURN IN!!!!
+    // REMOVE THIS BEFORE TURN IN!!!!
+    // THIS LINE IS ONLY FOR plot.py TO TAKE TIMING MEASUREMENTS
+    // std::cout << elapsed.count() << "\n"; 
 }
 
 int main(int argc, char *argv[])
