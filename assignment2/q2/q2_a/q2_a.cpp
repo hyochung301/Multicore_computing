@@ -13,8 +13,6 @@ void printMatrix(std::vector<std::vector<int>> matrix) {
     }
 }
 
-
-
 std::vector<std::vector<int>> readMatrix(char input[]) {
     std::ifstream file(input);
     if (!file) {
@@ -26,12 +24,12 @@ std::vector<std::vector<int>> readMatrix(char input[]) {
 
     std::vector<std::vector<int>> matrix(rows, std::vector<int>(cols));
 
-for(int i = 0; i < rows; i++) {
-    for(int j = 0; j < cols; j++) {
-        file >> matrix[i][j];
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            file >> matrix[i][j];
+        }
     }
-}
-return matrix;
+    return matrix;
 }
 
 void MatrixMult(char file1[], char file2[], int T)
@@ -63,5 +61,5 @@ int main(int argc, char *argv[])
     file2 = argv[2];
     int T = atoi(argv[3]);
     MatrixMult(file1, file2, T);
-
+    return 0;
 }
