@@ -1,19 +1,15 @@
 package q1;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;
-/*
-    this is weird. all of the tests only ever instantiate one monkey.
-    so this class really represents the crossing, not the monkeys.
-    I don't know why it's written that way? 
-*/
+
 public class Monkey {
 
    int nmonkeys = 0;
-   int nmonfin = 0;
-   boolean kong_wants = false;
-   boolean kong_on = false;   public boolean kong() {return kong_on;}
-   boolean left_on = false;   public boolean left() {return left_on;}
-   boolean right_on = false;  public boolean right(){return right_on;}
+   // int nmonfin = 0;
+   boolean kong_wants = false;            // these are just for tests
+   boolean kong_on = false;         public boolean kong() {return kong_on;}
+   boolean left_on = false;         public boolean left() {return left_on;}
+   boolean right_on = false;        public boolean right(){return right_on;}
    ReentrantLock rope;
    Condition no_right;
    Condition no_left;
@@ -60,7 +56,6 @@ public class Monkey {
       // System.out.println("\t\tKONG WANT");
       kong_wants = true;
       rope.lock();
-      int pnmonkeys = nmonkeys;
       while (nmonkeys!=0) rope_empty.await();
       if (nmonkeys!=0) System.out.println("ERROR: kong not alone");
       kong_wants = false;
