@@ -3,6 +3,7 @@ package queue;
 import java.util.EmptyStackException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
 
 public class LockQueue implements MyQueue {
 // you are free to add members
@@ -56,7 +57,7 @@ public class LockQueue implements MyQueue {
   
   public Integer deq() {
 	// implement your deq method here
-    int result;
+    int result = -1;
     deqLock.lock();
     try {
       while (count.get() == 0) {
