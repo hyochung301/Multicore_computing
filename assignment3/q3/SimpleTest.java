@@ -185,7 +185,7 @@ public class SimpleTest {
 
         for (int i = 0; i < NT*TSIZE; i++) {
             q.enq(i);
-            Assert.assertFalse(q.empty());
+            Assert.assertFalse(q.deq()==null);
         }
 
         Thread[] threads = new Thread[NT];
@@ -193,7 +193,7 @@ public class SimpleTest {
         for (Thread t : threads) { t.start(); }
         try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
         
-        Assert.assertTrue(q.empty());
+        Assert.assertTrue(q.deq()==null);
 
     }
 
