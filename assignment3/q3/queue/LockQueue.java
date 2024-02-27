@@ -14,6 +14,8 @@ public class LockQueue implements MyQueue {
   Node sentinel;
   AtomicInteger count;
 
+  public int size() {return count.get();} 
+  public boolean empty() {return this.size()==0;} // for testing
 
   public LockQueue() {
 	// implement your constructor here
