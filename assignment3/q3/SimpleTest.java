@@ -93,6 +93,36 @@ public class SimpleTest {
     }
 
     @Test
+    public void conc_test_lockq_deq() {
+
+        LockQueue q = new LockQueue();
+        final int TSIZE = 10000;
+        final int NT = 32;
+
+        Runnable deqer = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < TSIZE; i++) {
+                    q.deq();
+                }
+            }
+        };
+
+        for (int i = 0; i < NT*TSIZE; i++) {
+            q.enq(i);
+            Assert.assertFalse(q.empty());
+        }
+
+        Thread[] threads = new Thread[NT];
+        for (int i = 0; i < NT; i++) { threads[i] = new Thread(deqer); }
+        for (Thread t : threads) { t.start(); }
+        try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
+        
+        Assert.assertTrue(q.empty());
+
+    }
+
+    @Test
     public void conc_test_lockfreeq_enq() {
 
         LockFreeQueue q = new LockFreeQueue();
@@ -174,7 +204,7 @@ public class SimpleTest {
     }
 
     @Test
-    public void seq_test_lockfreestk() {
+    public void seq_test_lockfreestk_push() {
         MyStack s = new LockFreeStack();
         final int TSIZE = 100000;
 
@@ -190,7 +220,7 @@ public class SimpleTest {
     }
 
     @Test
-    public void conc_test_lockstk() {
+    public void conc_test_lockstk_push() {
 
         LockStack s = new LockStack();
         final int TSIZE = 10000;
@@ -236,7 +266,7 @@ public class SimpleTest {
     }
 
     @Test
-    public void conc_test_lockfreestk_enq() {
+    public void conc_test_lockfreestk_push() {
 
         LockFreeStack s = new LockFreeStack();
         final int TSIZE = 10000;
