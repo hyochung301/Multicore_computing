@@ -145,26 +145,26 @@ public class SimpleTest {
         ================================STACKS================================
     */
 
-    // @Test
-    // public void seq_test_lockstk() {
-    //     LockQueue q = new LockQueue();
-    //     final int TSIZE = 100000;
+    @Test
+    public void seq_test_lockstk() {
+        LockStack s = new LockStack();
+        final int TSIZE = 100000;
 
-    //     Assert.assertTrue(q.empty());
-    //     for (int i = 0; i < TSIZE; i++) {
-    //         Assert.assertEquals(i,q.size());
-    //         Assert.assertTrue(q.enq(i));
-    //     }
-    //     Assert.assertTrue(!q.empty());
-    //     Assert.assertEquals(TSIZE,q.size());
+        Assert.assertTrue(s.empty());
+        for (int i = 0; i < TSIZE; i++) {
+            Assert.assertEquals(i,s.size());
+            Assert.assertTrue(s.push(i));
+        }
+        Assert.assertTrue(!s.empty());
+        Assert.assertEquals(TSIZE,s.size());
 
-    //     for (int i = 0; i < TSIZE; i++) {
-    //         Assert.assertEquals(TSIZE-i,q.size());
-    //         Assert.assertTrue(q.deq()==i);
-    //         if (i != TSIZE-1) Assert.assertTrue(!q.empty());
-    //     }
-    //     Assert.assertTrue(q.empty());
-    // }
+        for (int i = TSIZE-1; i >= 0; i--) {
+            try{Assert.assertTrue(s.pop()==i);}catch(Exception e){Assert.assertTrue(false);}
+            Assert.assertEquals(TSIZE,s.size());
+            if (i != 0) Assert.assertTrue(!s.empty());
+        }
+        Assert.assertTrue(s.empty());
+    }
 
     // crude empty check that will pop
     public boolean lfse(MyStack s) {
@@ -189,50 +189,51 @@ public class SimpleTest {
         Assert.assertTrue(lfse(s));
     }
 
-    // @Test
-    // public void conc_test_lockstk() {
+    @Test
+    public void conc_test_lockstk() {
 
-    //     LockQueue s = new LockQueue();
-    //     final int TSIZE = 10000;
-    //     final int NT = 32;
+        LockStack s = new LockStack();
+        final int TSIZE = 10000;
+        final int NT = 32;
 
-    //     Runnable enqer = new Runnable() {
-    //         @Override
-    //         public void run() {
-    //             // System.out.println("runnable");
-    //             for (int i = 0; i < TSIZE; i++) {
-    //                 Assert.assertTrue(s.enq(i));
-    //             }
-    //         }
-    //     };
+        Runnable enqer = new Runnable() {
+            @Override
+            public void run() {
+                // System.out.println("runnable");
+                for (int i = 0; i < TSIZE; i++) {
+                    Assert.assertTrue(s.push(i));
+                }
+            }
+        };
 
-    //     Thread[] threads = new Thread[NT];
-    //     for (int i = 0; i < NT; i++) { threads[i] = new Thread(enqer); }
-    //     for (Thread t : threads) { t.start(); }
+        Thread[] threads = new Thread[NT];
+        for (int i = 0; i < NT; i++) { threads[i] = new Thread(enqer); }
+        for (Thread t : threads) { t.start(); }
 
-    //     // System.out.println("joining");     
-    //     try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
-    //     // System.out.println("joined");  
+        // System.out.println("joining");     
+        try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
+        // System.out.println("joined");  
 
-    //     HashMap<Integer, Integer> valCounter = new HashMap<>();
-    //     for (int i = 0; i < TSIZE; i++) { valCounter.put(i,0); }
-    //     // System.out.println("made map, deqin:");
+        HashMap<Integer, Integer> valCounter = new HashMap<>();
+        for (int i = 0; i < TSIZE; i++) { valCounter.put(i,0); }
+        // System.out.println("made map, deqin:");
 
-    //     for (int i = 0; i < NT*TSIZE; i++) {
-    //         Assert.assertFalse(s.empty());
-    //         Integer res = s.deq();
-    //         valCounter.put(res, valCounter.get(res)+1);
-    //     }
+        for (int i = 0; i < NT*TSIZE; i++) {
+            Assert.assertFalse(s.empty());
+            Integer res = 0;
+            try{res = s.pop();}catch(Exception e){Assert.assertTrue(false);}
+            valCounter.put(res, valCounter.get(res)+1);
+        }
 
-    //     // System.out.println("final checks");
-    //     Assert.assertTrue(s.empty());
+        // System.out.println("final checks");
+        Assert.assertTrue(s.empty());
         
-    //     // System.out.println("map check");
-    //     for (Integer key : valCounter.keySet()) {
-    //         Assert.assertTrue(valCounter.get(key)==NT);
-    //     }
+        // System.out.println("map check");
+        for (Integer key : valCounter.keySet()) {
+            Assert.assertTrue(valCounter.get(key)==NT);
+        }
 
-    // }
+    }
 
     @Test
     public void conc_test_lockfreestk_enq() {
