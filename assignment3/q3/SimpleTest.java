@@ -296,6 +296,36 @@ public class SimpleTest {
     }
 
     @Test
+    public void conc_test_lockstk_pop() {
+
+        LockStack s = new LockStack();
+        final int TSIZE = 10000;
+        final int NT = 32;
+
+        Runnable deqer = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < TSIZE; i++) {
+                    try{s.pop();}catch(Exception e){Assert.assertTrue(false);}
+                }
+            }
+        };
+
+        for (int i = 0; i < NT*TSIZE; i++) {
+            s.push(i);
+            Assert.assertFalse(s.empty());
+        }
+
+        Thread[] threads = new Thread[NT];
+        for (int i = 0; i < NT; i++) { threads[i] = new Thread(deqer); }
+        for (Thread t : threads) { t.start(); }
+        try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
+
+        Assert.assertTrue(s.empty());
+
+    }
+
+    @Test
     public void conc_test_lockfreestk_push() {
 
         LockFreeStack s = new LockFreeStack();
@@ -339,6 +369,45 @@ public class SimpleTest {
             Assert.assertTrue(valCounter.get(key)==NT);
         }
 
+    }
+
+    private class stk_deqer implements Runnable {
+            boolean good = true;
+            LockFreeStack s;
+            int ts;
+            public stk_deqer(LockFreeStack st, int sz){s=st;ts=sz;}
+            @Override
+            public void run() {
+                for (int i = 0; i < ts; i++) {
+                    try{s.pop();}catch(Exception e){good = false;}
+                }
+            }
+            public boolean gd() {return good;}
+    }
+
+    @Test
+    public void conc_test_lockfreestk_pop() {
+
+        LockFreeStack s = new LockFreeStack();
+        final int TSIZE = 10000;
+        final int NT = 2;
+
+        boolean good = true;
+
+        stk_deqer deqer = new stk_deqer(s,TSIZE);
+
+        for (int i = 0; i < NT*TSIZE; i++) {
+            s.push(i);
+            Assert.assertFalse(lfse(s));
+        }
+
+        Thread[] threads = new Thread[NT];
+        for (int i = 0; i < NT; i++) { threads[i] = new Thread(deqer); }
+        for (Thread t : threads) { t.start(); }
+        try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
+
+        Assert.assertTrue(lfse(s));
+        Assert.assertTrue(deqer.gd());
     }
 
 }
