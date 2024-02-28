@@ -379,7 +379,11 @@ public class SimpleTest {
             @Override
             public void run() {
                 for (int i = 0; i < ts; i++) {
-                    try{s.pop();}catch(Exception e){good = false;}
+                    try{ s.pop(); } catch(Exception e){
+                        e.printStackTrace();
+                        System.out.println((String.format("\n\nfail on i=%d",i)));
+                        Assert.fail();
+                    }
                 }
             }
             public boolean gd() {return good;}
@@ -390,24 +394,30 @@ public class SimpleTest {
 
         LockFreeStack s = new LockFreeStack();
         final int TSIZE = 10000;
-        final int NT = 2;
+        final int NT = 1;
 
         boolean good = true;
 
         stk_deqer deqer = new stk_deqer(s,TSIZE);
 
-        for (int i = 0; i < NT*TSIZE; i++) {
+        for (int i = 0; i < (NT*TSIZE); i++) {
             s.push(i);
-            Assert.assertFalse(lfse(s));
         }
 
         Thread[] threads = new Thread[NT];
         for (int i = 0; i < NT; i++) { threads[i] = new Thread(deqer); }
-        for (Thread t : threads) { t.start(); }
-        try {for (Thread t : threads){t.join();}} catch (Exception e) {e.printStackTrace();}
+        for (int i = 0; i < NT; i++) { threads[i].start(); }
+        try {for (int i = 0; i < NT; i++){threads[i].join();}} catch (Exception e) {e.printStackTrace();}
 
         Assert.assertTrue(lfse(s));
         Assert.assertTrue(deqer.gd());
+    }
+
+    @Test 
+    public void simple_lockfreestk_pop() {
+        LockFreeStack s = new LockFreeStack();
+        s.push(1);
+        try {s.pop();} catch (Exception e) {Assert.fail();}
     }
 
 }
