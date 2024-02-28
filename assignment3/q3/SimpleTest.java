@@ -394,7 +394,7 @@ public class SimpleTest {
 
         LockFreeStack s = new LockFreeStack();
         final int TSIZE = 10000;
-        final int NT = 1;
+        final int NT = 32;
 
         boolean good = true;
 
