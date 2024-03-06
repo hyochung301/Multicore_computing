@@ -3,7 +3,7 @@ public class JobScheduling extends LLP {
     // time[i] is the amount of time job i takes to complete
     // prerequisites[i] is a list of jobs that job i depends on
     public JobScheduling(int[] time, int[][] prerequisites) {
-        super();
+        super(1); //TODO replace w correct dimension
     }
 
     @Override

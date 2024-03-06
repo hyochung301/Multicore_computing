@@ -53,6 +53,7 @@ public abstract class LLP {
         while (!workers.isTerminated()) {}
     }
 
+    public int[] readG() {return G;} // for testing
 
     /*
         

@@ -2,7 +2,7 @@ public class ParallelReduce extends LLP {
 
     // A is an input array that we want to compute the reduction for
     public ParallelReduce(int[] A) {
-        super();
+        super(1); //TODO replace w correct dimension
     }
 
     @Override

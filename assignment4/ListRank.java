@@ -3,7 +3,7 @@ public class ListRank extends LLP {
     // parent[i] tells us the index of the parent of node i
     // the root r has parent[r] = -1
     public ListRank(int[] parent) {
-        super();
+        super(1); //TODO replace w correct dimension
     }
 
     @Override

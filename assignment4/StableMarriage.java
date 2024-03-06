@@ -3,7 +3,7 @@ public class StableMarriage extends LLP {
     // mprefs[i][k] is man i's kth choice
     // wprefs[i][k] is woman i's kth choice
     public StableMarriage(int[][] mprefs, int[][] wprefs) {
-        super();
+        super(mprefs.length);
     }
 
     @Override

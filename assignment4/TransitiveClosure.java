@@ -2,7 +2,7 @@ public class TransitiveClosure extends LLP {
 
     // edges[i][j] is true if there is an edge from node i to node j
     public TransitiveClosure(boolean[][] edges) {
-        super();
+        super(1); //TODO replace w correct dimension
     }
 
     @Override
