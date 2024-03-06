@@ -47,6 +47,8 @@ public abstract class LLP {
             for (Integer f : forbidden) {
                 workers.execute(advancers.get(f));
             }
+
+            // need a join here... I need to make the advancers callable instead of runnable will do soon
         }
 
         workers.shutdown();
