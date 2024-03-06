@@ -20,7 +20,10 @@ public abstract class LLP {
         state_dimension = sd;
         G = new int[sd];
         advancers = new ArrayList<ParallelAdvancer>();
-        for (int i = 0; i < sd; i++) {advancers.add(new ParallelAdvancer(i));}
+        for (int i = 0; i < sd; i++) {
+            G[i] = 0;
+            advancers.add(new ParallelAdvancer(i));
+        }
         workers = Executors.newFixedThreadPool(state_dimension);
     }
 
