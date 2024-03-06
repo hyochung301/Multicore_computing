@@ -1,6 +1,7 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 public abstract class LLP {
     // Feel free to add any methods here. Common parameters (e.g. number of processes)
@@ -37,18 +38,15 @@ public abstract class LLP {
         // 3. Repeat 1 and 2 until there are no forbidden states
 
         while (true) {
-            ArrayList<Integer> forbidden = new ArrayList<Integer>();
+            ArrayList<Callable<Void>> forbidden_advancers = new ArrayList<Callable<Void>>();
             for (int i = 0; i < state_dimension; i++) {
                 if (forbidden(i))
-                    forbidden.add(i);
+                    forbidden_advancers.add(advancers.get(i));
             }
-            if (forbidden.size() == 0) break;
-
-            for (Integer f : forbidden) {
-                workers.execute(advancers.get(f));
-            }
-
-            // need a join here... I need to make the advancers callable instead of runnable will do soon
+            if (forbidden_advancers.size() == 0) break;
+            try { 
+                workers.invokeAll(forbidden_advancers); 
+            } catch (InterruptedException e) {e.printStackTrace();}
         }
 
         workers.shutdown();
@@ -59,15 +57,13 @@ public abstract class LLP {
     /*
         
     */
-    private class ParallelAdvancer implements Runnable {
-        
+    private class ParallelAdvancer implements Callable<Void> {
         private final int j;
-
         public ParallelAdvancer(int i) {j = i;}
 
         @Override
-        public void run() {
-            LLP.this.advance(j);
+        public Void call() throws Exception {
+            LLP.this.advance(j); return null;
         }
     }
 }
