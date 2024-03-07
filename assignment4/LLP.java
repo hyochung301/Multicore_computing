@@ -42,6 +42,7 @@ public abstract class LLP {
 
         while (true) {
             ArrayList<Callable<Void>> forbidden_advancers = new ArrayList<Callable<Void>>();
+
             for (int i = 0; i < state_dimension; i++) {
                 if (forbidden(i))
                     forbidden_advancers.add(advancers.get(i));

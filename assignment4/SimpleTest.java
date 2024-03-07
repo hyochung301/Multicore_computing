@@ -66,16 +66,16 @@ public class SimpleTest {
     //     assertArrayEquals(expected, matching);
     // }
 
-    // @Test
-    // public void testParallelReduce() {
-    //     int[] A = { 1, 2, 3, 4 };
-    //     int[] expected = { 10, 3, 7 };
+    @Test
+    public void testParallelReduce() {
+        int[] A = { 1, 2, 3, 4 };
+        int[] expected = { 10, 3, 7 };
 
-    //     ParallelReduce pr = new ParallelReduce(A);
-    //     pr.solve();
-    //     int[] reduce = pr.getSolution();
-    //     assertArrayEquals(expected, reduce);
-    // }
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] reduce = pr.getSolution();
+        assertArrayEquals(expected, reduce);
+    }
 
     // @Test
     // public void testParallelPrefix() {
