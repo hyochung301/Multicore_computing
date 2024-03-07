@@ -2,13 +2,6 @@ public class ParallelReduce extends LLP {
 
     private int[] A;
 
-    public int stateAt(int zero_idx) {
-        return G[zero_idx+1];
-    }
-    public void setStateAt(int zero_idx, int v) {
-        G[zero_idx+1] = v;
-    }
-
     // A is an input array that we want to compute the reduction for
     public ParallelReduce(int[] A) {
         super(A.length); 
