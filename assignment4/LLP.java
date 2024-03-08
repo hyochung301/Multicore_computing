@@ -40,17 +40,17 @@ public abstract class LLP {
         // 2. Advance on forbidden states in parallel
         // 3. Repeat 1 and 2 until there are no forbidden states
 
-        while (true) {
-            ArrayList<Callable<Void>> forbidden_advancers = new ArrayList<Callable<Void>>();
-
-            for (int i = 0; i < state_dimension; i++) {
-                if (forbidden(i))
-                    forbidden_advancers.add(advancers.get(i));
-            }
-            if (forbidden_advancers.size() == 0) break;
+        boolean forbidden_entries = true;
+        while (forbidden_entries) {
             try { 
-                workers.invokeAll(forbidden_advancers); 
+                workers.invokeAll(advancers); 
             } catch (InterruptedException e) {e.printStackTrace();}
+            forbidden_entries = false;
+            for (int i = 0; i < state_dimension; i++) {
+                if (advancers.get(i).forbidden()) {
+                    forbidden_entries = true; break;
+                }
+            }
         }
 
         workers.shutdown();
@@ -64,11 +64,16 @@ public abstract class LLP {
     */
     private class ParallelAdvancer implements Callable<Void> {
         private final int j;
-        public ParallelAdvancer(int i) {j = i;}
+        private boolean forb;
+        public ParallelAdvancer(int i) {j = i; forb = true;}
 
         @Override
         public Void call() throws Exception {
-            LLP.this.advance(j); return null;
+            forb = LLP.this.forbidden(j);
+            if (forb) LLP.this.advance(j); 
+            return null;
         }
+
+        public boolean forbidden() {return forb;}
     }
 }

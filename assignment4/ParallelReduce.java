@@ -22,7 +22,6 @@ public class ParallelReduce extends LLP {
 
     @Override
     public void advance(int j) {
-        System.out.println(String.format("%d ADVANCING", j));
         if (j < state_dimension/2) {
             G[j] = (G[2*j] + G[2*j + 1]);
         } else {
