@@ -27,6 +27,17 @@ public abstract class LLP {
         workers = Executors.newFixedThreadPool(state_dimension);
     }
 
+    public LLP(int sd, int ss) {
+        state_dimension = sd;
+        G = new int[sd];
+        advancers = new ArrayList<ParallelAdvancer>();
+        for (int i = 0; i < sd; i++) {
+            G[i] = ss;
+            advancers.add(new ParallelAdvancer(i));
+        }
+        workers = Executors.newFixedThreadPool(state_dimension);
+    }
+
     // Checks whether process j is forbidden in the state vector G
     public abstract boolean forbidden(int j);
 
@@ -49,8 +60,6 @@ public abstract class LLP {
             try { 
                 workers.invokeAll(advancers); 
             } catch (InterruptedException e) {e.printStackTrace();}
-            // System.out.println(String.format("after iter %d:", ++n));
-            // parr(G);
             // break the loop if nobody is forbidden
             forbidden_entries = false;
             for (int i = 0; i < state_dimension; i++) {
