@@ -28,23 +28,23 @@ public class SimpleTest {
 
     }
 
-    // @Test
-    // public void testJobScheduling() {
-    //     int[] time = { 2, 3, 4, 1, 5 };
-    //     int[][] prerequisites = {
-    //             {},         // Job 0 has no prerequisites
-    //             { 0 },      // Job 1 depends on Job 0
-    //             { 0, 1 },   // Job 2 depends on Job 0 and Job 1
-    //             { 2 },      // Job 3 depends on Job 2
-    //             { 3 }       // Job 4 depends on Job 3
-    //     };
-    //     int[] expected = { 2, 5, 9, 10, 15 };
+    @Test
+    public void testJobScheduling() {
+        int[] time = { 2, 3, 4, 1, 5 };
+        int[][] prerequisites = {
+                {},         // Job 0 has no prerequisites
+                { 0 },      // Job 1 depends on Job 0
+                { 0, 1 },   // Job 2 depends on Job 0 and Job 1
+                { 2 },      // Job 3 depends on Job 2
+                { 3 }       // Job 4 depends on Job 3
+        };
+        int[] expected = { 2, 5, 9, 10, 15 };
 
-    //     JobScheduling js = new JobScheduling(time, prerequisites);
-    //     js.solve();
-    //     int[] completion_times = js.getSolution();
-    //     assertArrayEquals(expected, completion_times);
-    // }
+        JobScheduling js = new JobScheduling(time, prerequisites);
+        js.solve();
+        int[] completion_times = js.getSolution();
+        assertArrayEquals(expected, completion_times);
+    }
 
     // @Test
     // public void testStableMarriage() {

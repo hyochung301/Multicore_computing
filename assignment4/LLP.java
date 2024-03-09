@@ -33,6 +33,8 @@ public abstract class LLP {
     // Advances on process j
     public abstract void advance(int j);
 
+    private void parr(int[] arr) {for (int a : arr){System.out.print(a); System.out.print(", ");} System.out.println();}
+
     public void solve() {
         // Implement this method. There are many ways to do this but you
         // should follow the following basic steps:
@@ -41,10 +43,15 @@ public abstract class LLP {
         // 3. Repeat 1 and 2 until there are no forbidden states
 
         boolean forbidden_entries = true;
+        int n = 0;
         while (forbidden_entries) {
+            // everyone check if forbidden and advance in pllel
             try { 
                 workers.invokeAll(advancers); 
             } catch (InterruptedException e) {e.printStackTrace();}
+            // System.out.println(String.format("after iter %d:", ++n));
+            // parr(G);
+            // break the loop if nobody is forbidden
             forbidden_entries = false;
             for (int i = 0; i < state_dimension; i++) {
                 if (advancers.get(i).forbidden()) {
@@ -60,7 +67,8 @@ public abstract class LLP {
     public int[] readG() {return G;} // for testing
 
     /*
-        
+        attaches to one elem of state vector
+        checks forbidden and advances in own thread
     */
     private class ParallelAdvancer implements Callable<Void> {
         private final int j;
