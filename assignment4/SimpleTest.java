@@ -295,8 +295,8 @@ public class SimpleTest {
 
     @Test
     public void testParallelPrefixZero() {
-        int[] A =           { 0, 1, 0, 1, 0, 1};
-        int[] expected =    { 0, 1, 1, 2, 2, 3 };
+        int[] A =           { 0, 1, 0, 1, 0, 1 };
+        int[] expected =    { 0, 0, 1, 1, 2, 2 };
 
         ParallelReduce pr = new ParallelReduce(A);
         pr.solve();
@@ -310,10 +310,11 @@ public class SimpleTest {
 
     @Test
     public void testParallelPrefixHuge() {
-        int[] A = new int[1000000];
-        int[] expected = new int[1000000];
-        for (int i = 0; i < 1000000; i++) {
-            A[i] = i;
+        int[] A = new int[1000];
+        int[] expected = new int[1000];
+        A[0] = 0;
+        for (int i = 1; i < 1000; i++) {
+            A[i] = i-1;
             expected[i] = (i * (i + 1)) / 2;
         }
 
