@@ -46,25 +46,29 @@ public class SimpleTest {
         assertArrayEquals(expected, completion_times);
     }
 
-    // @Test
-    // public void testStableMarriage() {
-    //     int[][] mprefs = {
-    //             { 1, 2, 0 },
-    //             { 0, 1, 2 },
-    //             { 0, 1, 2 }
-    //     };
-    //     int[][] wprefs = {
-    //             { 1, 0, 2 },
-    //             { 1, 2, 0 },
-    //             { 0, 1, 2 }
-    //     };
-    //     int[] expected = { 2, 0, 1 };
+    @Test
+    public void testStableMarriage() {
+        int[][] mprefs = {
+                { 1, 2, 0 },
+                { 0, 1, 2 },
+                { 0, 1, 2 }
+        };
+        int[][] wprefs = {
+                { 1, 0, 2 },
+                { 1, 2, 0 },
+                { 0, 1, 2 }
+        };
+        int[] expected = { 2, 0, 1 };
 
-    //     StableMarriage sm = new StableMarriage(mprefs, wprefs);
-    //     sm.solve();
-    //     int[] matching = sm.getSolution();
-    //     assertArrayEquals(expected, matching);
-    // }
+        StableMarriage sm = new StableMarriage(mprefs, wprefs);
+        sm.solve();
+        int[] matching = sm.getSolution();
+        // System.out.println("Expect:");
+        // LLP.parr(expected);
+        // System.out.println("Got:");
+        // LLP.parr(matching);
+        assertArrayEquals(expected, matching);
+    }
 
     @Test
     public void testParallelReduce() {

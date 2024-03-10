@@ -44,7 +44,7 @@ public abstract class LLP {
     // Advances on process j
     public abstract void advance(int j);
 
-    private void parr(int[] arr) {for (int a : arr){System.out.print(a); System.out.print(", ");} System.out.println();}
+    public static void parr(int[] arr) {for (int a : arr){System.out.print(a); System.out.print(", ");} System.out.println();}
 
     public void solve() {
         // Implement this method. There are many ways to do this but you
