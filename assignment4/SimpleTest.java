@@ -137,18 +137,16 @@ public class SimpleTest {
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         
         for (String line : lines) {
-            // Remove braces and split by comma
-            line = line.trim();  // Remove leading and trailing spaces
+            line = line.trim();  
             if(line.startsWith("{")) {
-                line = line.substring(1); // Remove starting brace
+                line = line.substring(1); 
             }
             if(line.endsWith("},")) {
-                line = line.substring(0, line.length() - 2); // Remove ending brace and comma
+                line = line.substring(0, line.length() - 2);
             } else if(line.endsWith("}")) {
-                line = line.substring(0, line.length() - 1); // Remove ending brace
+                line = line.substring(0, line.length() - 1);
             }
 
-            // Skip empty or non-data lines
             if (line.isEmpty() || line.equals("};")) continue;
 
             String[] numbers = line.split(",\\s*");
@@ -159,7 +157,6 @@ public class SimpleTest {
             list.add(intNumbers);
         }
 
-        // Convert list to array
         int[][] array = new int[list.size()][];
         array = list.toArray(array);
         return array;
@@ -198,8 +195,6 @@ public class SimpleTest {
     }
 
     public boolean isStableMatching(int[][] wprefs, int[][] mprefs, int[] match) {
-        /* TODO implement this function */
-        /* Totally brute force approach */
 
         // brute force check every pair combo
         // for each student
