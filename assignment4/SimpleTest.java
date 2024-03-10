@@ -96,16 +96,16 @@ public class SimpleTest {
         assertArrayEquals(expected, prefix);
     }
 
-    // @Test
-    // public void testListRanking() {
-    //     int[] parents = { 2, 4, 8, 8, -1, 2, 1, 6, 4 };
-    //     int[] expected = { 3, 1, 2, 2, 0, 3, 2, 3, 1 };
+    @Test
+    public void testListRanking() {
+        int[] parents = { 2, 4, 8, 8, -1, 2, 1, 6, 4 };
+        int[] expected = { 3, 1, 2, 2, 0, 3, 2, 3, 1 };
 
-    //     ListRank lr = new ListRank(parents);
-    //     lr.solve();
-    //     int[] distances = lr.getSolution();
-    //     assertArrayEquals(expected, distances);
-    // }
+        ListRank lr = new ListRank(parents);
+        lr.solve();
+        int[] distances = lr.getSolution();
+        assertArrayEquals(expected, distances);
+    }
 
     // @Test
     // public void testTransitiveClosure() {
