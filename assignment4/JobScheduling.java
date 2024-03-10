@@ -1,5 +1,6 @@
 public class JobScheduling extends LLP {
 
+    // 6ms with given testJobScheduling()
     private final int[] time;
     private final int[][] pre;
     private int[] advancement;

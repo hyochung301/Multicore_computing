@@ -1,5 +1,6 @@
 public class ListRank extends LLP {
 
+    // 5ms with given testListRanking()
     private int[] parent;
 
     private int[] next;

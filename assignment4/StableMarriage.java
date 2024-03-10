@@ -1,5 +1,5 @@
 public class StableMarriage extends LLP {
-
+    // 5ms with given testStableMarriage()
     // mprefs[i][k] is man i's kth choice
     // wprefs[i][k] is woman i's kth choice
 

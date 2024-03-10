@@ -1,5 +1,6 @@
 public class ParallelPrefix extends LLP {
 
+    // 9ms with given testParallelPrefix()
     // A is an input array that we want to compute the prefix scan for
     // S is the pre-computed summation tree (reduction), computed using LLP-Reduce
 

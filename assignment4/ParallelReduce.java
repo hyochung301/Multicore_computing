@@ -1,5 +1,5 @@
 public class ParallelReduce extends LLP {
-
+    // 6ms with given testParallelReduce()
     private int[] A;
 
     // A is an input array that we want to compute the reduction for

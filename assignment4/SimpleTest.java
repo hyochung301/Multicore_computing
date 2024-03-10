@@ -1,6 +1,8 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.beans.Transient;
+
 public class SimpleTest {
 
     @Test
@@ -46,6 +48,25 @@ public class SimpleTest {
         assertArrayEquals(expected, completion_times);
     }
 
+    // Test case with no depenedent jobs
+    @Test
+    public void testJobSchedulingNoDependencies() {
+        int[] time = { 2, 3, 4, 1, 5 };
+        int[][] prerequisites = {
+                {},         // Job 0 has no prerequisites
+                {},         // Job 1 has no prerequisites
+                {},         // Job 2 has no prerequisites
+                {},         // Job 3 has no prerequisites
+                {}          // Job 4 has no prerequisites
+        };
+        int[] expected = { 2, 3, 4, 1, 5 };
+
+        JobScheduling js = new JobScheduling(time, prerequisites);
+        js.solve();
+        int[] completion_times = js.getSolution();
+        assertArrayEquals(expected, completion_times);
+    }
+
     @Test
     public void testStableMarriage() {
         int[][] mprefs = {
@@ -74,6 +95,17 @@ public class SimpleTest {
     public void testParallelReduce() {
         int[] A = { 1, 2, 3, 4 };
         int[] expected = { 10, 3, 7 };
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] reduce = pr.getSolution();
+        assertArrayEquals(expected, reduce);
+    }
+
+    @Test
+    public void testParallelReduce2() {
+        int[] A = { 5, 10, 15, 20, 25 };
+        int[] expected = { 75, 15, 60 };
 
         ParallelReduce pr = new ParallelReduce(A);
         pr.solve();
