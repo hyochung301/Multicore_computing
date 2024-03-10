@@ -119,7 +119,7 @@ public class SimpleTest {
                 { 0, 1, 2 }
 
         };
-        int[][] wprefs = {
+         int[][] wprefs = {
                 { 0, 1, 2 },
                 { 0, 1, 2 },
                 { 0, 1, 2 }
@@ -275,8 +275,58 @@ public class SimpleTest {
 
     @Test
     public void testParallelPrefix() {
-        int[] A = { 1, 2, 3, 4, 5, 6, 7, 8 };
-        int[] expected = { 0, 1, 3, 6, 10, 15, 21, 28 };
+        int[] A =           { 1, 2, 3, 4, 5, 6, 7, 8 };
+        int[] expected =    { 0, 1, 3, 6, 10, 15, 21, 28 };
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] S = pr.getSolution();
+
+        ParallelPrefix pp = new ParallelPrefix(A, S);
+        pp.solve();
+        int[] prefix = pp.getSolution();
+        assertArrayEquals(expected, prefix);
+    }
+
+    @Test
+    public void testParallelPrefixZero() {
+        int[] A =           { 0, 1, 0, 1, 0, 1 };
+        int[] expected =    { 0, 0, 1, 1, 2, 2 };
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] S = pr.getSolution();
+
+        ParallelPrefix pp = new ParallelPrefix(A, S);
+        pp.solve();
+        int[] prefix = pp.getSolution();
+        assertArrayEquals(expected, prefix);
+    }
+
+    @Test
+    public void testParallelPrefixHuge() {
+        int[] A = new int[1000];
+        int[] expected = new int[1000];
+        A[0] = 0;
+        for (int i = 1; i < 1000; i++) {
+            A[i] = i-1;
+            expected[i] = (i * (i + 1)) / 2;
+        }
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] S = pr.getSolution();
+
+        ParallelPrefix pp = new ParallelPrefix(A, S);
+        pp.solve();
+        int[] prefix = pp.getSolution();
+        assertArrayEquals(expected, prefix);
+    }
+
+    @Test
+    public void testParallelPrefixOneElement() {
+        int[] A = { 1 };
+        int[] expected = { 0 };
 
         ParallelReduce pr = new ParallelReduce(A);
         pr.solve();
