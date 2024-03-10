@@ -49,6 +49,7 @@ public class SimpleTest {
         assertArrayEquals(expected, completion_times);
     }
 
+
     @Test
     public void testStableMarriage() {
         int[][] mprefs = {
@@ -70,6 +71,64 @@ public class SimpleTest {
         // LLP.parr(expected);
         // System.out.println("Got:");
         // LLP.parr(matching);
+        assertArrayEquals(expected, matching);
+    }
+
+    @Test
+    public void testStableMarriageMinimal() {
+        int[][] mprefs = {
+                { 0 },
+        };
+        int[][] wprefs = {
+                { 0 },
+        };
+        int[] expected = { 0 };
+
+        StableMarriage sm = new StableMarriage(mprefs, wprefs);
+        sm.solve();
+        int[] matching = sm.getSolution();
+        assertArrayEquals(expected, matching);
+    }
+
+    @Test
+    public void testStableMarriageSameTop() {
+        int[][] mprefs = {
+                { 2, 1, 0 },
+                { 2, 1, 0 },
+                { 2, 1, 0 },
+
+        };
+        int[][] wprefs = {
+                { 1, 2, 0 },
+                { 2, 0, 1 },
+                { 0, 1, 2 }
+        };
+        int[] expected = { 2, 0, 1 };
+
+        StableMarriage sm = new StableMarriage(mprefs, wprefs);
+        sm.solve();
+        int[] matching = sm.getSolution();
+        assertArrayEquals(expected, matching);
+    }
+
+    @Test
+    public void testStableMarriageSymmetric() {
+        int[][] mprefs = {
+                { 0, 1, 2 },
+                { 0, 1, 2 },
+                { 0, 1, 2 }
+
+        };
+        int[][] wprefs = {
+                { 0, 1, 2 },
+                { 0, 1, 2 },
+                { 0, 1, 2 }
+        };
+        int[] expected = { 0, 1, 2 };
+
+        StableMarriage sm = new StableMarriage(mprefs, wprefs);
+        sm.solve();
+        int[] matching = sm.getSolution();
         assertArrayEquals(expected, matching);
     }
 
