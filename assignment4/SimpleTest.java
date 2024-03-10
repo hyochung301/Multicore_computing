@@ -199,10 +199,10 @@ public class SimpleTest {
         StableMarriage sm = new StableMarriage(mprefs, wprefs);
         sm.solve();
         int[] matching = sm.getSolution();
-        System.out.println("Expect:");
-        LLP.parr(expected);
-        System.out.println("Got:");
-        LLP.parr(matching);
+        // System.out.println("Expect:");
+        // LLP.parr(expected);
+        // System.out.println("Got:");
+        // LLP.parr(matching);
 
         assertTrue(isStableMatching(wprefs, mprefs, matching));
         // assertArrayEquals(expected, matching);

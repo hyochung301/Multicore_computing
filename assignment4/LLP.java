@@ -53,38 +53,42 @@ public abstract class LLP {
         // 2. Advance on forbidden states in parallel
         // 3. Repeat 1 and 2 until there are no forbidden states
 
-        // boolean forbidden_entries = true;
-        // int n = 0;
-        // while (forbidden_entries) {
-        //     // everyone check if forbidden and advance in pllel
-        //     try { 
-        //         workers.invokeAll(advancers); 
-        //     } catch (InterruptedException e) {e.printStackTrace();}
-        //     // break the loop if nobody is forbidden
-        //     forbidden_entries = false;
-        //     for (int i = 0; i < state_dimension; i++) {
-        //         if (advancers.get(i).forbidden()) {
-        //             forbidden_entries = true; break;
-        //         }
-        //     }
-        // }
-
-        // workers.shutdown();
-        // while (!workers.isTerminated()) {}
-        while (true) {
-            int fn = 0;
-            boolean[] fb = new boolean[state_dimension];
-            for (int i = 0; i < state_dimension; i++){
-                if (forbidden(i)) {
-                    fn++;
-                    fb[i] = true;
+        boolean forbidden_entries = true;
+        int n = 0;
+        while (forbidden_entries) {
+            // everyone check if forbidden and advance in pllel
+            try { 
+                workers.invokeAll(advancers); 
+            } catch (InterruptedException e) {e.printStackTrace();}
+            // break the loop if nobody is forbidden
+            forbidden_entries = false;
+            for (int i = 0; i < state_dimension; i++) {
+                if (advancers.get(i).forbidden()) {
+                    forbidden_entries = true; break;
                 }
             }
-            if (fn==0) break;
-            for (int i = 0; i < state_dimension; i++){
-                if (fb[i]) advance(i);
-            }
         }
+
+        workers.shutdown();
+        while (!workers.isTerminated()) {}
+
+        /*  The following is an all-sequential implementation
+            used to test if concurrency is causing errors if they happen */
+
+        // while (true) {
+        //     int fn = 0;
+        //     boolean[] fb = new boolean[state_dimension];
+        //     for (int i = 0; i < state_dimension; i++){
+        //         if (forbidden(i)) {
+        //             fn++;
+        //             fb[i] = true;
+        //         }
+        //     }
+        //     if (fn==0) break;
+        //     for (int i = 0; i < state_dimension; i++){
+        //         if (fb[i]) advance(i);
+        //     }
+        // }
 
     }
 
