@@ -27,7 +27,6 @@ public class StableMarriage extends LLP {
 
     @Override
     public void advance(int j) {
-        System.out.println(String.format("%d advancing from %d to %d, old wife %d, new %d",j,G[j],G[j]+1,mprefs[j][G[j]],mprefs[j][G[j]+1]));
         G[j]++;
         wives[j] = mprefs[j][G[j]];
     }
