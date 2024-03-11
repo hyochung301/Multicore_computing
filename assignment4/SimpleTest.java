@@ -493,6 +493,17 @@ public class SimpleTest {
         assertArrayEquals(expected, distances);
     }
 
+    @Test
+    public void testListRankingAgain() {
+        int[] parents = { 8, 7, 6, 5, -1, 4, 3, 2, 1 };
+        int[] expected = { 8, 6, 4, 2, 0, 1, 3, 5, 7 };
+
+        ListRank lr = new ListRank(parents);
+        lr.solve();
+        int[] distances = lr.getSolution();
+        assertArrayEquals(expected, distances);
+    }
+
     // @Test
     // public void testTransitiveClosure() {
     //     boolean[][] graph = {
