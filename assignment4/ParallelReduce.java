@@ -13,10 +13,14 @@ public class ParallelReduce extends LLP {
         if (j==0) return false;
         if (j < state_dimension/2) {
             return G[j] != (G[2*j] + G[2*j + 1]);
+            // uncomment this for textbook positive num only impl
+            // return G[j] < (G[2*j] + G[2*j + 1]);
         } else {
             int t1 = (A[2*j - state_dimension]);
             int t2 = (A[2*j - state_dimension + 1]);
             return G[j] != t1+t2;
+            // uncomment this for textbook positive num only impl
+            // return G[j] < t1+t2;
         }
     }
 

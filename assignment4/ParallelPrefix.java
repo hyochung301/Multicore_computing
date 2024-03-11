@@ -11,6 +11,8 @@ public class ParallelPrefix extends LLP {
 
     public ParallelPrefix(int[] A, int[] S) {
         super(A.length + S.length, 0);
+        // uncomment this for textbook positive num only impl
+        // super(A.length + S.length, Integer.MIN_VALUE);
         this.A = A; this.S = S;
         n = A.length;
     }
@@ -20,17 +22,25 @@ public class ParallelPrefix extends LLP {
         j++; // convert to one indexed
         if (j == 1) {
             return G[to_zero(j)] != (0);
+            // uncomment this for textbook positive num only impl
+            // return G[to_zero(j)] < (0);
         }
 
         if ((j&0x01) == 0) {
             return (G[to_zero(j)] != (G[to_zero(j/2)]));
+            // uncomment this for textbook positive num only impl
+            // return (G[to_zero(j)] < (G[to_zero(j/2)]));
         }
 
         if (j < n) {
             return G[to_zero(j)] != (S[to_zero(j-1)] + G[to_zero(j/2)]);
+            // uncomment this for textbook positive num only impl
+            // return G[to_zero(j)] < (S[to_zero(j-1)] + G[to_zero(j/2)]);
         }
 
         return G[to_zero(j)] != (A[to_zero(j-n)] + G[to_zero(j/2)]);
+        // uncomment this for textbook positive num only impl
+        // return G[to_zero(j)] < (A[to_zero(j-n)] + G[to_zero(j/2)]);
     }
 
     @Override

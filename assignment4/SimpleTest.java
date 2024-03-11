@@ -45,7 +45,11 @@ public class SimpleTest {
         int[] expected = { 2, 5, 9, 10, 15 };
 
         JobScheduling js = new JobScheduling(time, prerequisites);
+        long st = System.nanoTime();
         js.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nJobScheduling took %3f ms", el));
         int[] completion_times = js.getSolution();
         assertArrayEquals(expected, completion_times);
     }
@@ -66,7 +70,11 @@ public class SimpleTest {
         int[] expected = { 2, 0, 1 };
 
         StableMarriage sm = new StableMarriage(mprefs, wprefs);
+        long st = System.nanoTime();
         sm.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nStableMarriage took %3f ms", el));
         int[] matching = sm.getSolution();
         // System.out.println("Expect:");
         // LLP.parr(expected);
@@ -269,7 +277,11 @@ public class SimpleTest {
         int[] expected = { 10, 3, 7 };
 
         ParallelReduce pr = new ParallelReduce(A);
+        long st = System.nanoTime();
         pr.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nParallelReduce took %3f ms", el));
         int[] reduce = pr.getSolution();
         assertArrayEquals(expected, reduce);
     }
@@ -295,7 +307,11 @@ public class SimpleTest {
         int[] S = pr.getSolution();
 
         ParallelPrefix pp = new ParallelPrefix(A, S);
+        long st = System.nanoTime();
         pp.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nParallelPrefix took %3f ms", el));
         int[] prefix = pp.getSolution();
         assertArrayEquals(expected, prefix);
     }
@@ -468,7 +484,11 @@ public class SimpleTest {
         int[] expected = { 3, 1, 2, 2, 0, 3, 2, 3, 1 };
 
         ListRank lr = new ListRank(parents);
+        long st = System.nanoTime();
         lr.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nListRanking took %3f ms", el));
         int[] distances = lr.getSolution();
         assertArrayEquals(expected, distances);
     }
