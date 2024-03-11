@@ -54,6 +54,28 @@ public class SimpleTest {
         assertArrayEquals(expected, completion_times);
     }
 
+    @Test
+    public void testJobSchedulingChain() {
+        int[] time = { 1, 2, 3, 4, 5 };
+        int[][] prerequisites = {
+                {},                 
+                { 0 },              
+                { 0, 1 },           
+                { 0, 1, 2 },        
+                { 0, 1, 2, 3 }      
+        };
+        int[] expected = { 1, 3, 6, 10, 15};
+
+        JobScheduling js = new JobScheduling(time, prerequisites);
+        long st = System.nanoTime();
+        js.solve();
+        long en = System.nanoTime();
+        double el = ((double)(en-st))/1000000.0;
+        System.out.println(String.format("\nJobScheduling took %3f ms", el));
+        int[] completion_times = js.getSolution();
+        assertArrayEquals(expected, completion_times);
+    }
+
 
     @Test
     public void testStableMarriage() {
