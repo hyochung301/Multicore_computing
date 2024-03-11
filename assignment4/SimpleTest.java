@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.util.*;
 import java.io.*;
 import java.nio.file.*;
+import java.util.Random;
 
 public class SimpleTest {
 
@@ -259,7 +260,7 @@ public class SimpleTest {
         // LLP.parr(matching);
 
         assertTrue(isStableMatching(wprefs, mprefs, matching));
-        // assertArrayEquals(expected, matching);
+        assertArrayEquals(expected, matching);
     }
 
     @Test
@@ -325,6 +326,33 @@ public class SimpleTest {
     }
 
     @Test
+    public void testParallelPrefixNegative() {
+        for (int ii = 0; ii < 32; ii++) {
+            int[] A =           { 0, 1, 0, -1, 0, -1,  0,  0 };
+            int[] expected =    { 0, 0, 1,  1, 0,  0, -1, -1 };
+    
+            ParallelReduce pr = new ParallelReduce(A);
+            pr.solve();
+            int[] S = pr.getSolution();
+    
+            ParallelPrefix pp = new ParallelPrefix(A, S);
+            pp.solve();
+            int[] prefix = pp.getSolution();
+            // System.out.println("A:");
+            // LLP.parr(A);
+            // System.out.println("reduce:");
+            // LLP.parr(S);
+            // System.out.println("expected:");
+            // LLP.parr(expected);
+            // System.out.println("got:");
+            // LLP.parr(prefix);
+            // System.out.println("from state:");
+            // LLP.parr(pp.readG());
+            assertArrayEquals(expected, prefix);
+        }
+    }
+
+    @Test
     public void testParallelPrefixHuge() {
         int[] A = new int[1024];
         int[] expected = new int[1024];
@@ -345,6 +373,79 @@ public class SimpleTest {
         int[] prefix = pp.getSolution();
         assertArrayEquals(expected, prefix);
     }
+
+    @Test
+    public void testParallelPrefixHugeRandom() {
+        int[] A = new int[1024];
+        int[] expected = new int[1024];
+        A[0] = 0;
+        int sum = 0;
+        Random rand = new Random();
+        for (int i = 1; i < 1024; i++) {
+            A[i] = rand.nextInt(0x001FFFFF); // dont overflow
+            expected[i] = sum;
+            sum += A[i];
+        }
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] S = pr.getSolution();
+
+        ParallelPrefix pp = new ParallelPrefix(A, S);
+        pp.solve();
+        int[] prefix = pp.getSolution();
+        assertArrayEquals(expected, prefix);
+    }
+
+    @Test
+    public void testParallelPrefixHugeRandomNegative() {
+        int[] A = new int[128];
+        int[] expected = new int[128];
+        A[0] = 0;
+        int sum = 0;
+        Random rand = new Random();
+        for (int i = 1; i < 128; i++) {
+            A[i] = rand.nextInt(0xFFF); // dont overflow
+            if ((A[i]&0x01)==0) A[i] = -A[i];
+            expected[i] = sum;
+            sum += A[i];
+        }
+
+        ParallelReduce pr = new ParallelReduce(A);
+        pr.solve();
+        int[] S = pr.getSolution();
+
+        ParallelPrefix pp = new ParallelPrefix(A, S);
+        pp.solve();
+        int[] prefix = pp.getSolution();
+        assertArrayEquals(expected, prefix);
+    }
+
+    // this is an obscenely fat test, uncomment if u want testing to take a minute
+    // @Test
+    // public void testParallelPrefixHugeRandomObscene() {
+    //     for (int ii = 0; ii < 32; ii++) {
+    //         int[] A = new int[1024];
+    //         int[] expected = new int[1024];
+    //         A[0] = 0;
+    //         int sum = 0;
+    //         Random rand = new Random();
+    //         for (int i = 1; i < 1024; i++) {
+    //             A[i] = rand.nextInt(0x001FFFFF); // dont overflow
+    //             expected[i] = sum;
+    //             sum += A[i];
+    //         }
+
+    //         ParallelReduce pr = new ParallelReduce(A);
+    //         pr.solve();
+    //         int[] S = pr.getSolution();
+
+    //         ParallelPrefix pp = new ParallelPrefix(A, S);
+    //         pp.solve();
+    //         int[] prefix = pp.getSolution();
+    //         assertArrayEquals(expected, prefix);
+    //     }
+    // }
 
     @Test
     public void testParallelPrefixOneElement() {

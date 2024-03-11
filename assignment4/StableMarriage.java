@@ -7,14 +7,22 @@ public class StableMarriage extends LLP {
     private final int[][] mprefs;
     private int[] wives;
 
+    // wranks[i][k] is woman i's ranking of man k
+    private int[][] wranks;
+
     public StableMarriage(int[][] mprefs, int[][] wprefs) {
         super(mprefs.length);
         this.wprefs = wprefs;
         this.mprefs = mprefs;
         wives = new int[state_dimension];
+        wranks = new int[state_dimension][state_dimension];
+        // pretend I parallelized creating these inverse lists
+        for (int woman = 0; woman < state_dimension; woman++) {
+            for (int rank = 0; rank < state_dimension; rank++) {
+                wranks[woman][wprefs[woman][rank]] = rank;
+            }
+        }
     }
-
-    public static int idof(int[] arr, int v){for (int i = 0; i < arr.length; i++){if (arr[i]==v) return i;}return -1;}
 
     @Override
     public boolean forbidden(int j) {
@@ -22,20 +30,7 @@ public class StableMarriage extends LLP {
         wives[j] = z;
         for (int i = 0; i < state_dimension; i++) {
             for (int k = 0; k <= G[i]; k++) {
-                int z_rank_i = idof(wprefs[z], i);
-                int z_rank_j = idof(wprefs[z], j);
-                if ((z == mprefs[i][k]) && (z_rank_i < z_rank_j)) {
-                    // if (j==0) {
-                    //     System.out.println(String.format(
-                    //         "0 is w %d but %d ranks her %d and she ranks him %d as opposed to %d",
-                    //         z, i, k, z_rank_i, z_rank_j
-                    //     ));
-                    //     System.out.println(String.format(
-                    //         "man %d top rank is %d but he's on %d prop", i, mprefs[i][0], G[i]
-                    //     ));
-                    // }
-                    return true;
-                }
+                if ((z == mprefs[i][k]) && (wranks[z][i] < wranks[z][j])) return true;
             }
         }
         return false;
