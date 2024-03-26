@@ -43,7 +43,7 @@ public class LockQueue implements MyQueue {
         // if the queue was empty, signal notEmpty
         deqLock.lock();
         try {
-          notEmpty.signal();
+          notEmpty.signalAll();
         } finally {
           deqLock.unlock();
         }
